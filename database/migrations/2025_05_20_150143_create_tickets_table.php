@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('code')->unique();
             $table->string('title');
-            $table->text('description');
+            $table->longText('description');
             $table->enum('status', ['open', 'in_progress', 'resolved', 'rejected'])->default('open');
             $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
             $table->timestamps();
