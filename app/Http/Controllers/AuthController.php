@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -26,9 +27,26 @@ class AuthController extends Controller
                     'message' => 'Login Berhasil',
                     'data' => [
                         'token' => $token,
-                        'user' => $user
+                        'user' => new UserResource($user)
                     ]
                 ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                    'message' => 'Terjadi Kesalahan',
+                    'massage' => $e->getMessage(),
+                ], 500);
+        }
+    }
+
+    public function me()
+    {
+        try {
+            $user = Auth::user();
+            return response()->json([
+                    'message' => 'Profile User Behasil Diambil',
+                    'data' => new UserResource($user)
+                ], 200);
+            
         } catch (Exception $e) {
             return response()->json([
                     'message' => 'Terjadi Kesalahan',
